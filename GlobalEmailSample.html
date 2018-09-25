@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Global Email Demo</title>	
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <style>
+        .header img {
+            float: right;
+            width: 188px;
+            height: 80px;
+            background: #555;
+        }
+
+        .header h2 {
+            position: relative;
+            top: 18px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body class="ui container">
+    <p>	
+    <div class="header">
+        <img src="melissa-global-intelligence.jpg" width="188" height="80" alt="logo" />
+        <h2 class="ui header">Global Email Demo</h2>		
+		<br>
+    </div>	
+	<br>
+	<div class="wiki">	
+	</div>
+    <div class="main ui container">	
+        <div class="ui top attached tabular menu">
+            <a class="item active" data-tab="tab-name">Input</a>
+			<a class="item" data-tab="tab-name3">Request</a>
+            <a class="item" data-tab="tab-name2">Output</a>
+        </div>
+        <!-- Input tab -->
+        <div class="ui bottom attached tab segment active" data-tab="tab-name">
+            <div class="ui two column stackable grid container">
+                <div class="column">
+				<a href="http://wiki.melissadata.com/index.php?title=Global_Email">Global Email Wiki</a>
+                    
+                    <!-- License Key -->
+                    <div class="ui info message">					
+                        <div class="header">
+                            License Key
+                        </div>
+                        Enter here your encrypted and unique license key from Melissa Data. This is necessary for including with each request to the web service. If you do not have a license key, please contact your Melissa Data sales representative at 1-800-MELISSA (1-800-635-4772)
+                    </div>
+                    <div class="ui input right fluid field">
+                        <input type="text" placeholder="License Key..." name="id">
+                    </div>
+                    <p>
+                    
+                    <!-- Options -->
+                    <div class="ui info message">
+                        <div class="header">
+                            Options
+                        </div>
+						<ul class="list">
+                            <li>Verify Mailbox - Select either Express or Premium. Express is the default; it quickly validates against a database of known email addresses. Premium performs real time, live validation of email addresses</li>
+                            <li>Domain Correction - Determines whether fuzzy correction will be used on suspected email domain typos</li>
+                            <li>Time To Wait - Select how long (in seconds) you would like our web service to wait on a single email before it times out. Range is 5 - 25 seconds</li>
+                        </ul>
+                    </div>
+                    <!-- Option - Verify Mailbox -->
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="opt_VerifyMailbox">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Verify Mailbox</div>
+                        <div class="menu">
+                            <div class="item" data-value="Express">Express</div>
+                            <div class="item" data-value="Premium">Premium</div>					
+                        </div>
+                    </div>
+                    <!-- Option - Domain Correction -->
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="opt_DomainCorrection">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Domain Correction</div>
+                        <div class="menu">
+                            <div class="item" data-value="on">On</div>
+                            <div class="item" data-value="off">Off</div>
+                        </div>
+                    </div>
+                    <!-- Option - Time to Wait -->
+                    <div class="ui input">
+                        <input type="number" name="opt_TimeToWait" min="5" max="25" step="5">
+                    </div>
+                </div>
+                
+                <div class="column">
+					<h1>Request Elements</h1>
+					<p>
+                    <div class="ui input right fluid">
+                        <input type="text" placeholder="Email..." name="email">
+                    </div>
+                    <p>
+                    <p><br>
+                    <button class="ui icon button normal" onclick="doClear()">
+                        <i class="erase icon"></i>
+                        Clear
+                    </button>
+                    <button class="ui icon button positive" onclick="doVerify()">
+                        <i class="thumbs up icon"></i>
+                        Send Request
+                    </button>
+                </div>
+            </div>
+        </div>
+
+		<!-- REST tab -->
+        <div class="ui bottom attached tab segment" data-tab="tab-name3">
+            <pre name="restOutput">
+                Run a record through first
+            </pre>
+        </div>
+		
+        <!-- Output tab -->
+        <div class="ui bottom attached tab segment" data-tab="tab-name2">
+            <pre name="jsonOutput">
+                Run a record through first
+            </pre>
+        </div>
+        <p><br>
+    </div>
+
+    <script>
+        $('.menu .item').tab();
+        $('.ui.dropdown').dropdown();
+        $('.ui.accordion').accordion();
+
+        $('#selectAll').change(function () {
+            if ($(this).prop('checked')) {
+               $('input').prop('checked', true);
+            } else {
+                $('input').prop('checked', false);
+            }
+        });
+        $('#selectAll').trigger('change');
+
+        function getOpt() {
+            var opt = "";
+            if ($('input[name=opt_VerifyMailbox]').val() != "") opt += "VerifyMailBox:" + $('input[name=opt_VerifyMailbox]').val() + ",";
+            if ($('input[name=opt_DomainCorrection]').val() != "") opt += "DomainCorrection:" + $('input[name=opt_DomainCorrection]').val() + ",";
+            if ($('input[name=opt_TimeToWait]').val() != "") opt += "TimeToWait:" + $('input[name=opt_TimeToWait]').val() + ",";
+            return opt;
+        }
+
+		function getUserInput() {
+			var userInput = "";	
+            userInput += "&email=" + $('input[name=email]').val();           		
+			return userInput;
+		}
+
+        function doVerify() {
+			var xhttp = new XMLHttpRequest();
+			var url = "https://globalemail.melissadata.net/v3/WEB/GlobalEmail/doGlobalEmail?";
+			url += "&id=" + encodeURIComponent($('input[name=id]').val());
+			url += "&opt=" + getOpt().replace(/,\s*$/, "");
+			url += getUserInput();
+            url += "&format=JSON";
+			xhttp.open("GET", url, false);
+			xhttp.send();
+			console.log(url);
+			var response = JSON.parse(xhttp.responseText);
+			
+			$('pre[name=restOutput]').text('\n\n' + url + '\n\n\n');
+			$('pre[name=jsonOutput]').text(JSON.stringify(response, null, '\t'));
+			$('.ui.menu').find('.item').tab('change tab', 'tab-name2');
+        }
+
+        function doClear() {
+            $("input").each(function(index) {
+                $(this).val('');
+            })
+        }
+
+    </script>
+</body>
+</html>
