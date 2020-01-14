@@ -1,9 +1,9 @@
 ![alt text](https://www.melissa.com/_borders17/nav/2017/images/melissa-global-intelligence.png)
 
-# Global IP Locator API HTML/JavaScript REST Sample Code
+# Global Email API HTML/JavaScript REST Sample Code
 
-This is a sample code for Melissa's Global IP Locator API. It is written in HTML and JavaScript and accesses the API through REST. 
-This sample is intended to show the functionality of the Global IP Locator Web Service and how to call the service in HTML/JavaScript. 
+This is a sample code for Melissa's Global Email API. It is written in HTML and JavaScript and accesses the API through REST. 
+This sample is intended to show the functionality of the Global Email Web Service and how to call the service in HTML/JavaScript. 
 
 
 ## Getting Started
@@ -42,14 +42,14 @@ Then you may submit a request to the API.
 
 For free technical support please call us at 800-MELISSA ext. 4 (800-635-4772 ext. 4) or email us at tech@MelissaData.
 
-To subscribe to the Global IP Locator Web Service, please contact our sales department at 800-MELISSA ext. 3 (800-635-4772 ext. 3).
+To subscribe to the Global Email Web Service, please contact our sales department at 800-MELISSA ext. 3 (800-635-4772 ext. 3).
 
 
 ## Copyright Notice
 
 (C) 2018 Melissa Data Corporation. All rights reserved.
 
-Global IP Locator Web Service is a trademark and 1-800-MELISSA is a registered trademark
+Global Email Web Service is a trademark and 1-800-MELISSA is a registered trademark
 of Melissa Data Corporation.
 
 All other brands and products are trademarks of their respective holder(s).

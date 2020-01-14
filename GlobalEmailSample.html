@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Global IP Locator Demo</title>	
+    <title>Global Email Demo</title>	
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css"/>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
@@ -25,7 +25,7 @@
     <p>	
     <div class="header">
         <img src="melissa-global-intelligence.jpg" width="188" height="80" alt="logo" />
-        <h2 class="ui header">Global IP Locator Demo</h2>		
+        <h2 class="ui header">Global Email Demo</h2>		
 		<br>
     </div>	
 	<br>
@@ -41,7 +41,8 @@
         <div class="ui bottom attached tab segment active" data-tab="tab-name">
             <div class="ui two column stackable grid container">
                 <div class="column">
-				<a href="http://wiki.melissadata.com/index.php?title=IP_Locator">Global IP Locator Wiki</a>                   
+				<a href="http://wiki.melissadata.com/index.php?title=Global_Email">Global Email Wiki</a>
+                    
                     <!-- License Key -->
                     <div class="ui info message">					
                         <div class="header">
@@ -52,13 +53,50 @@
                     <div class="ui input right fluid field">
                         <input type="text" placeholder="License Key..." name="id">
                     </div>
-                    <p>                    
-                </div>                
+                    <p>
+                    
+                    <!-- Options -->
+                    <div class="ui info message">
+                        <div class="header">
+                            Options
+                        </div>
+						<ul class="list">
+                            <li>Verify Mailbox - Select either Express or Premium. Express is the default; it quickly validates against a database of known email addresses. Premium performs real time, live validation of email addresses</li>
+                            <li>Domain Correction - Determines whether fuzzy correction will be used on suspected email domain typos</li>
+                            <li>Time To Wait - Select how long (in seconds) you would like our web service to wait on a single email before it times out. Range is 5 - 25 seconds</li>
+                        </ul>
+                    </div>
+                    <!-- Option - Verify Mailbox -->
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="opt_VerifyMailbox">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Verify Mailbox</div>
+                        <div class="menu">
+                            <div class="item" data-value="Express">Express</div>
+                            <div class="item" data-value="Premium">Premium</div>					
+                        </div>
+                    </div>
+                    <!-- Option - Domain Correction -->
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="opt_DomainCorrection">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Domain Correction</div>
+                        <div class="menu">
+                            <div class="item" data-value="on">On</div>
+                            <div class="item" data-value="off">Off</div>
+                        </div>
+                    </div>
+                    <!-- Option - Time to Wait -->
+                    <div class="ui input">
+                        <input type="number" name="opt_TimeToWait" min="5" max="25" step="5">
+                    </div>
+                </div>
+                
                 <div class="column">
 					<h1>Request Elements</h1>
 					<p>
                     <div class="ui input right fluid">
-                        <input type="text" placeholder="IP Address..." name="ip">
+                        <input type="text" placeholder="Email..." name="email">
                     </div>
                     <p>
                     <p><br>
@@ -104,16 +142,25 @@
         });
         $('#selectAll').trigger('change');
 
+        function getOpt() {
+            var opt = "";
+            if ($('input[name=opt_VerifyMailbox]').val() != "") opt += "VerifyMailBox:" + $('input[name=opt_VerifyMailbox]').val() + ",";
+            if ($('input[name=opt_DomainCorrection]').val() != "") opt += "DomainCorrection:" + $('input[name=opt_DomainCorrection]').val() + ",";
+            if ($('input[name=opt_TimeToWait]').val() != "") opt += "TimeToWait:" + $('input[name=opt_TimeToWait]').val() + ",";
+            return opt;
+        }
+
 		function getUserInput() {
 			var userInput = "";	
-            userInput += "&ip=" + $('input[name=ip]').val();           		
+            userInput += "&email=" + $('input[name=email]').val();           		
 			return userInput;
 		}
 
         function doVerify() {
 			var xhttp = new XMLHttpRequest();
-			var url = "https://globalip.melissadata.net/v4/web/iplocation/doiplocation?";
+			var url = "https://globalemail.melissadata.net/v3/WEB/GlobalEmail/doGlobalEmail?";
 			url += "&id=" + encodeURIComponent($('input[name=id]').val());
+			url += "&opt=" + getOpt().replace(/,\s*$/, "");
 			url += getUserInput();
             url += "&format=JSON";
 			xhttp.open("GET", url, false);
