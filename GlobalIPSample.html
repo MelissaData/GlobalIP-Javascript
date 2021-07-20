@@ -19,6 +19,10 @@
             top: 18px;
             left: 10px;
         }
+        .whoIs{
+            width: 180px;
+            align-items: center;
+        }
     </style>
 </head>
 <body class="ui container">
@@ -59,6 +63,12 @@
 					<p>
                     <div class="ui input right fluid">
                         <input type="text" placeholder="IP Address..." name="ip">
+                    </div>
+                    <p>
+                    <p>
+                    
+                    <div class="ui input right fluid whoIs">
+                        <input type="checkbox" placeholder="Show Domain Information"  name="col"><span>Show Domain Information</span>
                     </div>
                     <p>
                     <p><br>
@@ -110,11 +120,23 @@
 			return userInput;
 		}
 
+        function isShowDomainEnabled(){
+            var isShowDomainEnabled = "";
+            if ($('input[name=col]').is(":checked") === true){
+                isShowDomainEnabled += "&cols=grpdomaininfo";
+            }
+                       		
+			return isShowDomainEnabled;
+        }
+
+
+
         function doVerify() {
 			var xhttp = new XMLHttpRequest();
 			var url = "https://globalip.melissadata.net/v4/web/iplocation/doiplocation?";
 			url += "&id=" + encodeURIComponent($('input[name=id]').val());
 			url += getUserInput();
+            url += isShowDomainEnabled();
             url += "&format=JSON";
 			xhttp.open("GET", url, false);
 			xhttp.send();
